@@ -27,7 +27,6 @@
   "icon" : "images/icon.png",
   "parcel" : {
     /* Automatically add the spark parcel repository */
-    /* "repoUrl" : "http://archive.cloudera.com/spark/parcels/latest/", */
     "requiredTags" : ["yspark"],
     "optionalTags" : ["yspark-plugin"]
   },
@@ -74,7 +73,10 @@
         "commandName" : "CreateSparkHistoryDirCommand"
       },
       {
-        "commandName" : "SparkUploadJarServiceCommand"
+        "commandName" : "SparkUploadJarServiceCommand",
+        /** We allow a failure here because on kerberized clusters,
+            this command will always fail **/
+        "failureAllowed" : true
       }
     ]
   },
@@ -460,5 +462,3 @@
     }
   }
 }
-
-
