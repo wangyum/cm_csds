@@ -14,22 +14,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 {
-  "name" : "SPARK",
-  "label" : "Spark (Standalone)",
-  "description" : "Apache Spark is an open source cluster computing system. This is the standalone version of the service which does not use YARN for resource management. Cloudera recommends using Spark on YARN instead of this standalone version.",
+  "name" : "YSPARK",
+  "label" : "Spark (YHD)",
+  "description" : "YHD Spark is a standalone version of the service.",
   "version" : "5.4.0",
   "runAs" : {
     "user" : "spark",
     "group" : "spark"
   },
   /* CM removes it from Express Wizard for CDH 5 */
-  "inExpressWizard" : true,
+  "inExpressWizard" : false,
   "icon" : "images/icon.png",
   "parcel" : {
     /* Automatically add the spark parcel repository */
-    "repoUrl" : "http://archive.cloudera.com/spark/parcels/latest/",
-    "requiredTags" : ["spark", "cdh"],
-    "optionalTags" : ["spark-plugin"]
+    /* "repoUrl" : "http://archive.cloudera.com/spark/parcels/latest/", */
+    "requiredTags" : ["yspark"],
+    "optionalTags" : ["yspark-plugin"]
   },
   "serviceDependencies" : [
     {
