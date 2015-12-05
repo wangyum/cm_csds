@@ -15,18 +15,19 @@
 // limitations under the License.
 {
   "name" : "YSPARK",
-  "label" : "Spark (YHD)",
-  "description" : "YHD Spark is a standalone version of the service.",
+  "label" : "YSpark",
+  "description" : "YSpark provide a way to install custom apache Spark version. This is the standalone version of the service.",
   "version" : "5.4.0",
   "runAs" : {
     "user" : "spark",
     "group" : "spark"
   },
   /* CM removes it from Express Wizard for CDH 5 */
-  "inExpressWizard" : false,
+  "inExpressWizard" : true,
   "icon" : "images/icon.png",
   "parcel" : {
     /* Automatically add the spark parcel repository */
+    "repoUrl" : "http://archive.cloudera.com/spark/parcels/latest/",
     "requiredTags" : ["yspark"],
     "optionalTags" : ["yspark-plugin"]
   },
@@ -73,10 +74,7 @@
         "commandName" : "CreateSparkHistoryDirCommand"
       },
       {
-        "commandName" : "SparkUploadJarServiceCommand",
-        /** We allow a failure here because on kerberized clusters,
-            this command will always fail **/
-        "failureAllowed" : true
+        "commandName" : "SparkUploadJarServiceCommand"
       }
     ]
   },
@@ -210,12 +208,6 @@
             "params" : [ "master_address", "master_port" ],
             "roleName" : "SPARK_MASTER"
           }
-        ],
-        "auxConfigGenerators" : [
-          {
-            "filename" : "config/spark-env.sh",
-            "sourceFilename" : "aux/client/spark-env.sh"
-          }
         ]
       }
     },
@@ -320,12 +312,6 @@
             "filename" : "master.properties",
             "params" : [ "master_address", "master_port" ],
             "roleName" : "SPARK_MASTER"
-          }
-        ],
-        "auxConfigGenerators" : [
-          {
-            "filename" : "config/spark-env.sh",
-            "sourceFilename" : "aux/client/spark-env.sh"
           }
         ]
       },

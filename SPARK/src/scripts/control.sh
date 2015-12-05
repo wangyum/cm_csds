@@ -38,7 +38,7 @@ function readconf {
 }
 
 function get_default_fs {
-  hdfs --config $1 getconf -confKey fs.defaultFS 2>/dev/null
+  $HDFS_BIN --config $1 getconf -confKey fs.defaultFS 2>/dev/null
 }
 
 log "Detected CDH_VERSION of [$CDH_VERSION]"
@@ -51,6 +51,7 @@ export BIGTOP_DEFAULTS_DIR=""
 export SPARK_HOME=${SPARK_HOME:-$YHD_SPARK_HOME}
 export HADOOP_HOME=${HADOOP_HOME:-$CDH_HADOOP_HOME}
 export HADOOP_CONF_DIR=$CONF_DIR/hadoop-conf
+export HDFS_BIN=$HADOOP_HOME/../../bin/hdfs
 
 # If SPARK_HOME is not set, make it the default
 export SPARK_HOME=${SPARK_HOME:-$DEFAULT_SPARK_HOME}
@@ -183,7 +184,11 @@ case $CMD in
 
     log "Uploading Spark assembly jar to '$SPARK_JAR_HDFS_PATH' on CDH $CDH_VERSION cluster"
 
-    PATTERN="$SPARK_HOME/assembly/lib/spark-assembly*cdh*.jar"
+    if [ -d $SPARK_HOME/assembly/lib ]; then
+      PATTERN="$SPARK_HOME/assembly/lib/spark-assembly*cdh*.jar"
+    else
+      PATTERN="$SPARK_HOME/lib/spark-assembly-*.jar"
+    fi
     for jar in $PATTERN; do
       if [ -f "$jar" ] ; then
         # If there are multiple, use the first one
@@ -198,16 +203,16 @@ case $CMD in
     fi
 
     # Does it already exist on HDFS?
-    if hdfs dfs -test -f "$SPARK_JAR_HDFS_PATH" ; then
+    if $HDFS_BIN dfs -test -f "$SPARK_JAR_HDFS_PATH" ; then
       BAK=$SPARK_JAR_HDFS_PATH.$(date +%s)
       log "Backing up existing Spark jar as $BAK"
-      hdfs dfs -mv "$SPARK_JAR_HDFS_PATH" "$BAK"
+      $HDFS_BIN dfs -mv "$SPARK_JAR_HDFS_PATH" "$BAK"
     else
       # Create HDFS hierarchy
-      hdfs dfs -mkdir -p $(dirname "$SPARK_JAR_HDFS_PATH")
+      $HDFS_BIN dfs -mkdir -p $(dirname "$SPARK_JAR_HDFS_PATH")
     fi
 
-    hdfs dfs -put "$SPARK_JAR_LOCAL_PATH" "$SPARK_JAR_HDFS_PATH"
+    $HDFS_BIN dfs -put "$SPARK_JAR_LOCAL_PATH" "$SPARK_JAR_HDFS_PATH"
     exit $?
     ;;
 

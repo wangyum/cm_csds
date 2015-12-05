@@ -10,7 +10,7 @@
   </parent>
 
   <groupId>com.cloudera.csd</groupId>
-  <artifactId>SPARK</artifactId>
+  <artifactId>YSPARK</artifactId>
   <version>5.4.0</version>
   <name>The Spark CSD</name>
   <packaging>pom</packaging>
