@@ -151,8 +151,8 @@ function prepare_spark_env {
     add_to_classpath "$CLASSPATH_FILE_TMP" "$HADOOP_CLASSPATH"
   fi
 
-  if [ -n "CDH_SPARK_CLASSPATH" ]; then
-    add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_SPARK_CLASSPATH"
+  if [ -n "YHD_SPARK_CLASSPATH" ]; then
+    add_to_classpath "$CLASSPATH_FILE_TMP" "$YHD_SPARK_CLASSPATH"
   fi
 
   cat "$CLASSPATH_FILE_TMP" | sort | uniq > "$CLASSPATH_FILE"
