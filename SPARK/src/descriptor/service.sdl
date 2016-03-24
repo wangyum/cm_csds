@@ -17,7 +17,7 @@
   "name" : "YSPARK",
   "label" : "YSpark (Standalone)",
   "description" : "YSpark provide a way to install custom apache Spark version. This is the standalone version of the service.",
-  "version" : "5.4.0",
+  "version" : "5.5.0",
   "runAs" : {
     "user" : "spark",
     "group" : "spark"
@@ -27,7 +27,7 @@
   "icon" : "images/icon.png",
   "parcel" : {
     /* Automatically add the spark parcel repository */
-    "repoUrl" : "https://archive.cloudera.com/spark/parcels/latest/",
+    "repoUrl" : "http://10.63.14.99/spark/parcels/5.5.1/",
     "requiredTags" : ["yspark"],
     "optionalTags" : ["yspark-plugin"]
   },
