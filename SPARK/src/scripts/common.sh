@@ -36,7 +36,7 @@ log "Detected CDH_VERSION of [$CDH_VERSION]"
 # Set this to not source defaults
 export BIGTOP_DEFAULTS_DIR=""
 
-export HADOOP_HOME=${HADOOP_HOME:-$CDH_HADOOP_HOME}
+export HADOOP_HOME=${HADOOP_HOME:-$(readlink -m "$CDH_HADOOP_HOME")}
 export HDFS_BIN=$HADOOP_HOME/../../bin/hdfs
 
 export HADOOP_CONF_DIR="$CONF_DIR/yarn-conf"
@@ -49,8 +49,9 @@ if [ ! -d "$HADOOP_CONF_DIR" ]; then
 fi
 
 # If SPARK_HOME is not set, make it the default
-DEFAULT_SPARK_HOME=/usr/lib/spark
-SPARK_HOME=${SPARK_HOME:-$YHD_SPARK_HOME}
+#DEFAULT_SPARK_HOME=/usr/lib/spark
+DEFAULT_SPARK_HOME=/opt/cloudera/parcels/YSPARK/lib/spark
+SPARK_HOME=$(readlink -m ${SPARK_HOME:-$YHD_SPARK_HOME})
 export SPARK_HOME=${SPARK_HOME:-$DEFAULT_SPARK_HOME}
 
 # We want to use a local conf dir
@@ -72,6 +73,9 @@ fi
 # sets preference to IPV4
 export SPARK_DAEMON_JAVA_OPTS="$SPARK_DAEMON_JAVA_OPTS -Djava.net.preferIPv4Stack=true"
 
+# Make sure PARCELS_ROOT is in the format we expect, canonicalized and without a trailing slash.
+export PARCELS_ROOT=$(readlink -m "$PARCELS_ROOT")
+
 # Reads a line in the format "$host:$key=$value", setting those variables.
 function readconf {
   local conf
@@ -88,6 +92,24 @@ function replace {
   perl -pi -e "s#${1}#${2}#g" $3
 }
 
+# Blacklists certain jars from Spark's classpath to avoid a few issues.
+# - avro-tools: not needed by Spark and re-packages a bunch of things.
+# - jersey, any version but 1.9: CDH has other versions of jersey and things break if multiple are
+#   in the classpath.
+# - jackson, any version but 1.8 (used by hadoop) and 2.2.3 (used by Spark).
+function is_blacklisted {
+  local JAR=$(basename "$1")
+
+  if [[ "$JAR" =~ ^avro-tools* ]]; then
+    return 0
+  elif [[ "$JAR" =~ ^jersey.*-1\.[^9].*\.jar ]]; then
+    return 0
+  elif [[ "$JAR" =~ ^jackson.* ]] && ! [[ "$JAR" =~ ^jackson.*-(1\.8|2\.2\.3).*\.jar ]]; then
+    return 0
+  fi
+  return 1
+}
+
 function add_to_classpath {
   local CLASSPATH_FILE="$1"
   local CLASSPATH="$2"
@@ -101,7 +123,8 @@ function add_to_classpath {
     for entry in $pattern; do
       entry=$(readlink -m "$entry")
       name=$(basename $entry)
-      if [ -f "$entry" ] && ! grep -q "/$name\$" "$CLASSPATH_FILE"; then
+      if [ -f "$entry" ] && ! is_blacklisted "$entry" && ! grep -q "/$name\$" "$CLASSPATH_FILE"
+      then
         echo "$entry" >> "$CLASSPATH_FILE"
       fi
     done

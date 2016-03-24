@@ -15,7 +15,7 @@
 // limitations under the License.
 {
   "name" : "YSPARK",
-  "label" : "YSpark",
+  "label" : "YSpark (Standalone)",
   "description" : "YSpark provide a way to install custom apache Spark version. This is the standalone version of the service.",
   "version" : "5.4.0",
   "runAs" : {
@@ -462,5 +462,4 @@
     }
   }
 }
-
 
