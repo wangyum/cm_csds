@@ -11,7 +11,7 @@
 
   <groupId>com.cloudera.csd</groupId>
   <artifactId>YSPARK</artifactId>
-  <version>5.4.0</version>
+  <version>5.5.1</version>
   <name>The Spark CSD</name>
   <packaging>pom</packaging>
 
@@ -37,5 +37,5 @@
         </executions>
       </plugin>
     </plugins>
-   </build>
+  </build>
 </project>
