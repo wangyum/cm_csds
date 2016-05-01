@@ -14,9 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 {
-  "name" : "YSPARK",
-  "label" : "YSpark",
-  "description" : "This is the standalone version build by <span class=\"error\">Yihaodian</span>.",
+  "name" : "SPARK",
+  "label" : "Spark (Standalone)",
+  "description" : "Apache Spark is an open source cluster computing system. This is the standalone version of the service which does not use YARN for resource management. Cloudera recommends using Spark on YARN instead of this standalone version. This is a way to install the latest spark version</a>.",
   "version" : "5.5.1",
   "runAs" : {
     "user" : "spark",
@@ -28,8 +28,7 @@
   "parcel" : {
     /* Automatically add the spark parcel repository */
     "repoUrl" : "http://10.63.14.99/spark/parcels/5.5.1/",
-    "requiredTags" : ["yspark"],
-    "optionalTags" : ["yspark-plugin"]
+    "requiredTags" : ["yspark"]
   },
   "serviceDependencies" : [
     {
@@ -462,3 +461,5 @@
     }
   }
 }
+
+

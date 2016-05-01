@@ -32,7 +32,6 @@ function log {
 # Time marker for both stderr and stdout
 log "Running Spark CSD control script..."
 log "Detected CDH_VERSION of [$CDH_VERSION]"
-log "CONF_DIR: $CONF_DIR"
 
 # Set this to not source defaults
 export BIGTOP_DEFAULTS_DIR=""
@@ -51,7 +50,7 @@ fi
 
 # If SPARK_HOME is not set, make it the default
 DEFAULT_SPARK_HOME=/opt/cloudera/parcels/YSPARK
-SPARK_HOME=${SPARK_HOME:-$YHD_SPARK_HOME}
+SPARK_HOME=${SPARK_HOME:-$CDH_SPARK_HOME}
 export SPARK_HOME=${SPARK_HOME:-$DEFAULT_SPARK_HOME}
 
 # We want to use a local conf dir
@@ -152,8 +151,8 @@ function prepare_spark_env {
     add_to_classpath "$CLASSPATH_FILE_TMP" "$HADOOP_CLASSPATH"
   fi
 
-  if [ -n "YHD_SPARK_CLASSPATH" ]; then
-    add_to_classpath "$CLASSPATH_FILE_TMP" "$YHD_SPARK_CLASSPATH"
+  if [ -n "CDH_SPARK_CLASSPATH" ]; then
+    add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_SPARK_CLASSPATH"
   fi
 
   cat "$CLASSPATH_FILE_TMP" | sort | uniq > "$CLASSPATH_FILE"
