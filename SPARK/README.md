@@ -33,7 +33,7 @@ Restart Cloudera Manager server:
 $ service cloudera-scm-server restart
 ```
 
-Download [latest Spark parcel](http://baidu.com) and install it:
+Download [latest Spark parcel](https://drive.google.com/open?id=0BxL8Kzbd2N--NkpDS3loYTFUVzA) and install it:
 
 ```bash
 $ scp YSPARK-1.6.1-1.cdh5.4.3.p04.28-el6.parcel root@ClouderaManagerServer:/opt/cloudera/parcel-repo/   
