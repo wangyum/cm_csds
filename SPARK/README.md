@@ -33,23 +33,10 @@ Restart Cloudera Manager server:
 $ service cloudera-scm-server restart
 ```
 
-Download [latest Spark parcel](https://drive.google.com/open?id=0BxL8Kzbd2N--NkpDS3loYTFUVzA) and install it:
-
-```bash
-$ scp YSPARK-1.6.1-1.cdh5.4.3.p04.28-el6.parcel root@ClouderaManagerServer:/opt/cloudera/parcel-repo/   
+Using [latest Spark parcel](http://ec2-52-25-166-54.us-west-2.compute.amazonaws.com/spark/):
 ```
-
-```bash
-$ scp YSPARK-1.6.1-1.cdh5.4.3.p04.28-el6.parcel.sha root@ClouderaManagerServer:/opt/cloudera/parcel-repo/
+http://ec2-52-25-166-54.us-west-2.compute.amazonaws.com/spark/
 ```
-
-Change the owner:
-
-```bash
-$ chown cloudera-scm:cloudera-scm /opt/cloudera/parcel-repo/YSPARK-1.6.1-1.cdh5.4.3.p04.28-el6.parcel*
-```
-
-Then you can install Spark Standalone as normal.
 
 All source in this repository is [Apache-Licensed](LICENSE.txt).
 
