@@ -165,23 +165,11 @@ function find_local_spark_jar {
   # with a config that has not been updated, although any other updated configs will
   # be missed.
   local SPARK_JAR_LOCAL_PATH=
-  if [ -f "$SPARK_HOME/lib/spark-assembly.jar" ]; then
-    echo "$SPARK_HOME/lib/spark-assembly.jar"
-  elif [ -f "$SPARK_HOME/assembly/lib/spark-assembly.jar" ]; then
-    echo "$SPARK_HOME/assembly/lib/spark-assembly.jar"
+  if [ -f "$SPARK_HOME/jars/*.jar" ]; then
+    echo "$SPARK_HOME/jars/*.jar"
+  elif [ -f "$SPARK_HOME/assembly/jars/*.jar" ]; then
+    echo "$SPARK_HOME/assembly/jars/*.jar"
   else
-    PATTERN="$SPARK_HOME/assembly/lib/spark-assembly*cdh*.jar"
-    for jar in $PATTERN; do
-      if [ -f "$jar" ] ; then
-        # If there are multiple, use the first one
-        SPARK_JAR_LOCAL_PATH="$jar"
-        break
-      fi
-    done
-    if [ -z "$SPARK_JAR_LOCAL_PATH" ]; then
-      log "Cannot find the Spark assembly on local filesystem: $PATTERN"
-      return 1
-    fi
     echo "$SPARK_JAR_LOCAL_PATH"
   fi
 }
