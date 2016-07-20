@@ -143,10 +143,12 @@ function prepare_spark_env {
     fi
   fi
 
-  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HIVE_HOME/lib/*.jar"
-  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_FLUME_HOME/lib/*.jar"
-  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_PARQUET_HOME/lib/*.jar"
-  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_AVRO_HOME/*.jar"
+#  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HIVE_HOME/lib/hive-hbase-handler.jar"
+  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/hbase*.jar"
+  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/htrace*.jar"
+#  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_FLUME_HOME/lib/*.jar"
+#  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_PARQUET_HOME/lib/*.jar"
+#  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_AVRO_HOME/*.jar"
   if [ -n "HADOOP_CLASSPATH" ]; then
     add_to_classpath "$CLASSPATH_FILE_TMP" "$HADOOP_CLASSPATH"
   fi
@@ -155,7 +157,7 @@ function prepare_spark_env {
     add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_SPARK_CLASSPATH"
   fi
 
-  cat "$CLASSPATH_FILE_TMP" | sort | uniq > "$CLASSPATH_FILE"
+  cat "$CLASSPATH_FILE_TMP" | sort | grep -v "\-tests.jar" |uniq > "$CLASSPATH_FILE"
   rm -f "$CLASSPATH_FILE_TMP"
 }
 
