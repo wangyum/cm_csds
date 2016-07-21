@@ -143,7 +143,6 @@ function prepare_spark_env {
     fi
   fi
 
-#  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HIVE_HOME/lib/hive-hbase-handler.jar"
   add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/hbase*.jar"
   add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/htrace*.jar"
 #  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_FLUME_HOME/lib/*.jar"

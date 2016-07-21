@@ -23,7 +23,7 @@ MASTER_FILE="$CONF_DIR/$MASTER_FILE"
 
 ### Let's run everything with JVM runtime, instead of Scala
 export SPARK_LAUNCH_WITH_SCALA=0
-export SPARK_LIBRARY_PATH=${SPARK_HOME}/jars
+export SPARK_LIBRARY_PATH=${SPARK_HOME}/lib:${SPARK_HOME}/jars
 export SCALA_LIBRARY_PATH=${SPARK_HOME}/lib
 
 if [ -n "$HADOOP_HOME" ]; then
