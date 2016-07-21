@@ -156,7 +156,7 @@ function prepare_spark_env {
     add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_SPARK_CLASSPATH"
   fi
 
-  cat "$CLASSPATH_FILE_TMP" | sort | grep -v "\-tests.jar" |uniq > "$CLASSPATH_FILE"
+  cat "$CLASSPATH_FILE_TMP" | sort | grep -v "\-tests.jar\|parquet" |uniq > "$CLASSPATH_FILE"
   rm -f "$CLASSPATH_FILE_TMP"
 }
 
