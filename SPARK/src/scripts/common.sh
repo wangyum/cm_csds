@@ -267,13 +267,13 @@ function deploy_client_config {
   if [ $CDH_VERSION -ge 5 ]; then
     # If no Spark jar is defined, look for the location of the jar on the local filesystem,
     # which we assume will be the same across the cluster.
-    if ! grep -q 'spark.yarn.jar' "$SPARK_DEFAULTS"; then
+    if ! grep -q 'spark.yarn.jars' "$SPARK_DEFAULTS"; then
       if [ -n "$SPARK_JAR" ]; then
         SPARK_JAR="$DEFAULT_FS$SPARK_JAR"
       else
         SPARK_JAR="local:$(find_local_spark_jar)"
       fi
-      echo "spark.yarn.jar=$SPARK_JAR" >> "$SPARK_DEFAULTS"
+      echo "spark.yarn.jars=$SPARK_JAR" >> "$SPARK_DEFAULTS"
     fi
   fi
 
