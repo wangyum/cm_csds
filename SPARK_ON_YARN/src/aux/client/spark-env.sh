@@ -16,7 +16,7 @@ export SPARK_JAR_HDFS_PATH=${SPARK_JAR_HDFS_PATH:-'{{SPARK_JAR_HDFS_PATH}}'}
 
 ### Some definitions needed by older versions of CDH.
 export SPARK_LAUNCH_WITH_SCALA=0
-export SPARK_LIBRARY_PATH=${SPARK_HOME}/lib
+export SPARK_LIBRARY_PATH=${SPARK_HOME}/lib:${SPARK_HOME}/jars
 export SCALA_LIBRARY_PATH=${SPARK_HOME}/lib
 
 SPARK_PYTHON_PATH="{{PYTHON_PATH}}"

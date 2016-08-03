@@ -247,7 +247,7 @@
     "alternatives" : {
       "name" : "spark-conf",
       // The priority is set to be higher than Spark standalone by default
-      "priority" : 51,
+      "priority" : 61,
       "linkRoot" : "/etc/spark"
     },
     "parameters" : [
