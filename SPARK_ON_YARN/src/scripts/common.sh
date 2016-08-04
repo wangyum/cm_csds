@@ -166,8 +166,13 @@ function find_local_spark_jar {
   # with a config that has not been updated, although any other updated configs will
   # be missed.
   local SPARK_JAR_LOCAL_PATH=
-  if [ -f "$SPARK_HOME/jars/*.jar" ]; then
-    echo "$SPARK_HOME/jars/*.jar"
+  if [ -d "$SPARK_HOME/jars/" ]; then
+    ALL_JARS=""
+    for jar in $(ls "$SPARK_HOME"/jars/*.jar)
+    do
+      ALL_JARS=${ALL_JARS}"local:"${jar}","
+    done
+    echo ${ALL_JARS%?}
   elif [ -f "$SPARK_HOME/assembly/jars/*.jar" ]; then
     echo "$SPARK_HOME/assembly/jars/*.jar"
   else
@@ -271,7 +276,7 @@ function deploy_client_config {
       if [ -n "$SPARK_JAR" ]; then
         SPARK_JAR="$DEFAULT_FS$SPARK_JAR"
       else
-        SPARK_JAR="local:$(find_local_spark_jar)"
+        SPARK_JAR="$(find_local_spark_jar)"
       fi
       echo "spark.yarn.jars=$SPARK_JAR" >> "$SPARK_DEFAULTS"
     fi
