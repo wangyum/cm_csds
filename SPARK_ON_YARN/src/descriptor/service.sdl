@@ -266,8 +266,8 @@
          "description" : "Which deploy mode to use by default. Can be overridden by users when launching applications.",
         "required" : "false",
         "type" : "string_enum",
-        "validValues" : [ "client", "cluster" ],
-        "default" : "client"
+        "validValues" : [ "yarn-client", "yarn-cluster", "yarn" ],
+        "default" : "yarn"
       },
       {
         "name" : "spark_data_serializer",

@@ -29,7 +29,7 @@ case $1 in
     # The default deploy mode. Passed as an argument to the script. Prepend it with "yarn-"
     # to build the default master configuration, but try not to overwrite user configs.
     if ! grep -q 'spark.master' $SPARK_DEFAULTS; then
-      echo "spark.master=yarn-$DEPLOY_MODE" >> $SPARK_DEFAULTS
+      echo "spark.master=$DEPLOY_MODE" >> $SPARK_DEFAULTS
     fi
     ;;
 
