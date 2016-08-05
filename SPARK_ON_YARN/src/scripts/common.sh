@@ -190,6 +190,21 @@ function run_spark_class {
 }
 
 function start_history_server {
+  # upload spark config to HDFS
+  # export HADOOP_CONF_DIR=/etc/hadoop/conf
+  log "Uploading Spark config to HDFS."
+  SPARK_HDFS_CONF_DIR="/user/spark/conf"
+  SPARK_LOCAL_CONF_DIR="/etc/spark/conf"
+  if hdfs dfs -test -d "$SPARK_HDFS_CONF_DIR" ; then
+    BAK="$SPARK_HDFS_CONF_DIR.$(date +%s)"
+    log "Backing up existing Spark config as $BAK"
+    hdfs dfs -mv "$SPARK_HDFS_CONF_DIR" "$BAK"
+  else
+    # Create HDFS hierarchy
+    hdfs dfs -mkdir -p "$SPARK_HDFS_CONF_DIR"
+  fi
+  hdfs dfs -put "$SPARK_LOCAL_CONF_DIR" "$SPARK_HDFS_CONF_DIR"
+
   log "Starting Spark History Server"
   local CONF_FILE="$CONF_DIR/spark-history-server.conf"
   local LOG_DIR="$(get_default_fs $HADOOP_CONF_DIR)$HISTORY_LOG_DIR"
