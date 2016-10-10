@@ -18,7 +18,7 @@
   "label" : "Spark",
   "description" : "Apache Spark is an open source cluster computing system. This service runs Spark as an application on YARN.",
   "version" : "5.5.1",
-  "compatibility" : { "cdhVersion" : { "min" : "5.4.0", "max" : "5.5" } },
+  "compatibility" : { "cdhVersion" : { "min" : "5.4.0" } },
   "runAs" : {
     "user" : "spark",
     "group" : "spark",
@@ -156,7 +156,7 @@
       "commands" : [
         {
           "name" : "SparkUploadJarCommand",
-          "label" : "Install Spark JAR",
+          "label" : "Install Spark Jar",
           "description" : "Install Spark assembly JAR on HDFS.",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "stopped",
@@ -219,7 +219,7 @@
           "type" : "memory",
           "unit" : "bytes",
           "min" : 67108864,
-          "default" : 268435456
+          "default" : 536870912
         }
       ],
       "configWriter" : {

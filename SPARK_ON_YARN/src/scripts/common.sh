@@ -204,6 +204,8 @@ function start_history_server {
     hdfs dfs -mkdir -p "$SPARK_HDFS_CONF_DIR"
   fi
   hdfs dfs -put "$SPARK_LOCAL_CONF_DIR" "$SPARK_HDFS_CONF_DIR"
+  hdfs dfs -put /etc/hive/conf/hive-site.xml "$SPARK_HDFS_CONF_DIR"
+  hdfs dfs -chmod 755 "$SPARK_HDFS_CONF_DIR"
 
   log "Starting Spark History Server"
   local CONF_FILE="$CONF_DIR/spark-history-server.conf"

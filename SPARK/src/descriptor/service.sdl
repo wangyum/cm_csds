@@ -53,7 +53,7 @@
       "description" : "Creates the Spark user directory in HDFS.",
       "directoryDescription" : "Spark HDFS user directory",
       "path" : "/user/${user}",
-      "permissions" : "0751"
+      "permissions" : "0755"
     },
     {
       "name" : "CreateSparkHistoryDirCommand",
