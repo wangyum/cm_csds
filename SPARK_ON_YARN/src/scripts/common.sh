@@ -145,6 +145,7 @@ function prepare_spark_env {
 
   add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/hbase*.jar"
   add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_HBASE_HOME/lib/htrace*.jar"
+  add_to_classpath "$CLASSPATH_FILE_TMP" "$SPARK_HOME/yarn/*.jar"
 #  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_FLUME_HOME/lib/*.jar"
 #  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_PARQUET_HOME/lib/*.jar"
 #  add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_AVRO_HOME/*.jar"
@@ -156,7 +157,7 @@ function prepare_spark_env {
     add_to_classpath "$CLASSPATH_FILE_TMP" "$CDH_SPARK_CLASSPATH"
   fi
 
-  cat "$CLASSPATH_FILE_TMP" | sort | grep -v "\-tests.jar\|parquet\|datanucleus" | uniq > "$CLASSPATH_FILE"
+  cat "$CLASSPATH_FILE_TMP" | sort | grep -v "\-tests.jar\|parquet\|datanucleus\|spark.*cdh.*yarn-shuffle.jar" | uniq > "$CLASSPATH_FILE"
   rm -f "$CLASSPATH_FILE_TMP"
 }
 
@@ -190,23 +191,6 @@ function run_spark_class {
 }
 
 function start_history_server {
-  # upload spark config to HDFS
-  # export HADOOP_CONF_DIR=/etc/hadoop/conf
-  log "Uploading Spark config to HDFS."
-  SPARK_HDFS_CONF_DIR="/user/spark/conf"
-  SPARK_LOCAL_CONF_DIR="/etc/spark/conf"
-  if hdfs dfs -test -d "$SPARK_HDFS_CONF_DIR" ; then
-    BAK="$SPARK_HDFS_CONF_DIR.$(date +%s)"
-    log "Backing up existing Spark config as $BAK"
-    hdfs dfs -mv "$SPARK_HDFS_CONF_DIR" "$BAK"
-  else
-    # Create HDFS hierarchy
-    hdfs dfs -mkdir -p "$SPARK_HDFS_CONF_DIR"
-  fi
-  hdfs dfs -put "$SPARK_LOCAL_CONF_DIR" "$SPARK_HDFS_CONF_DIR"
-  hdfs dfs -put /etc/hive/conf/hive-site.xml "$SPARK_HDFS_CONF_DIR"
-  hdfs dfs -chmod 755 "$SPARK_HDFS_CONF_DIR"
-
   log "Starting Spark History Server"
   local CONF_FILE="$CONF_DIR/spark-history-server.conf"
   local LOG_DIR="$(get_default_fs $HADOOP_CONF_DIR)$HISTORY_LOG_DIR"
