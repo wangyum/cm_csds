@@ -173,6 +173,10 @@ function find_local_spark_jar {
     do
       ALL_JARS=${ALL_JARS}"local:"${jar}","
     done
+    for jar in $(ls "$SPARK_HOME"/yarn/*.jar)
+    do
+      ALL_JARS=${ALL_JARS}"local:"${jar}","
+    done
     echo ${ALL_JARS%?}
   elif [ -f "$SPARK_HOME/assembly/jars/*.jar" ]; then
     echo "$SPARK_HOME/assembly/jars/*.jar"
